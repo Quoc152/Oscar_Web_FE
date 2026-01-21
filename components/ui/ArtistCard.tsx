@@ -1,8 +1,8 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { Heart } from 'lucide-react';
-import { Artist } from '@/lib/types';
+import { useState } from "react";
+import { Heart } from "lucide-react";
+import { Artist } from "@/lib/types";
 
 interface ArtistCardProps {
   artist: Artist;
@@ -28,11 +28,11 @@ export default function ArtistCard({ artist, onVote }: ArtistCardProps) {
         {/* Image container */}
         <div
           className={`w-full h-full bg-gray-800 flex items-center justify-center transition-transform duration-300 ${
-            isHovered ? 'scale-110' : 'scale-100'
+            isHovered ? "scale-110" : "scale-100"
           }`}
         >
           {/* Placeholder for artist image */}
-          <div className="w-full h-full bg-gradient-to-br from-primary/20 to-cyan-400/20 flex items-center justify-center text-gray-600">
+          <div className="w-full h-full bg-gradient-to-br from-primary/20 to-blue-700/20 flex items-center justify-center text-gray-600">
             <div className="text-center">
               <div className="text-4xl mb-2">♫</div>
               <p className="text-sm">{artist.name}</p>
@@ -52,12 +52,12 @@ export default function ArtistCard({ artist, onVote }: ArtistCardProps) {
               onClick={handleVote}
               className={`flex items-center gap-2 px-6 py-3 rounded-lg font-bold transition-all duration-300 ${
                 isVoted
-                  ? 'bg-primary text-black shadow-lg shadow-primary/50'
-                  : 'bg-white/10 border border-white/30 text-white hover:bg-white/20'
+                  ? "bg-primary text-black shadow-lg shadow-primary/50"
+                  : "bg-white/10 border border-white/30 text-white hover:bg-white/20"
               }`}
             >
-              <Heart size={20} fill={isVoted ? 'currentColor' : 'none'} />
-              {isVoted ? 'ĐÃ BÌNH CHỌN' : 'BÌNH CHỌN'}
+              <Heart size={20} fill={isVoted ? "currentColor" : "none"} />
+              {isVoted ? "ĐÃ BÌNH CHỌN" : "BÌNH CHỌN"}
             </button>
           </div>
         )}

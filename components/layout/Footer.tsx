@@ -1,11 +1,19 @@
-'use client';
+"use client";
 
-import Link from 'next/link';
-import { Facebook, Instagram, Twitter, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
+import Link from "next/link";
+import {
+  Facebook,
+  Instagram,
+  Twitter,
+  Linkedin,
+  Mail,
+  Phone,
+  MapPin,
+} from "lucide-react";
 
 export default function Footer() {
   return (
-    <footer className="relative w-full bg-black/80 backdrop-blur-sm border-t border-white/10">
+    <footer className="relative w-full bg-background/80 backdrop-blur-sm border-t border-white/10">
       {/* Background effects */}
       <div className="absolute inset-0 z-0">
         <div className="absolute top-0 left-1/4 w-96 h-96 bg-primary/5 rounded-full blur-3xl" />
@@ -18,13 +26,14 @@ export default function Footer() {
             {/* Company Info */}
             <div>
               <h3 className="text-white font-bold text-lg mb-4 flex items-center gap-2">
-                <div className="w-8 h-8 bg-gradient-to-r from-primary to-cyan-400 rounded-lg flex items-center justify-center">
+                <div className="w-8 h-8 bg-gradient-to-r from-primary to-blue-700 rounded-lg flex items-center justify-center">
                   <span className="text-black font-bold text-sm">✦</span>
                 </div>
                 LÀNSÓNG
               </h3>
               <p className="text-gray-500 text-sm leading-relaxed">
-                Chương trình trao giải âm nhạc hàng năm, tôn vinh những nghệ sĩ tài ba và những bài hát hay nhất.
+                Chương trình trao giải âm nhạc hàng năm, tôn vinh những nghệ sĩ
+                tài ba và những bài hát hay nhất.
               </p>
             </div>
 
@@ -51,12 +60,18 @@ export default function Footer() {
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-gray-500 hover:text-primary transition-colors text-sm">
+                  <Link
+                    href="#"
+                    className="text-gray-500 hover:text-primary transition-colors text-sm"
+                  >
                     Điều Khoản Sử Dụng
                   </Link>
                 </li>
                 <li>
-                  <Link href="#" className="text-gray-500 hover:text-primary transition-colors text-sm">
+                  <Link
+                    href="#"
+                    className="text-gray-500 hover:text-primary transition-colors text-sm"
+                  >
                     Chính Sách Bảo Mật
                   </Link>
                 </li>
@@ -70,16 +85,29 @@ export default function Footer() {
               </h4>
               <ul className="space-y-3">
                 <li className="flex items-start gap-3">
-                  <Mail size={16} className="text-primary mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-500 text-sm break-all">info@lansongxanh.vn</span>
+                  <Mail
+                    size={16}
+                    className="text-primary mt-0.5 flex-shrink-0"
+                  />
+                  <span className="text-gray-500 text-sm break-all">
+                    info@lansongxanh.vn
+                  </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <Phone size={16} className="text-primary mt-0.5 flex-shrink-0" />
+                  <Phone
+                    size={16}
+                    className="text-primary mt-0.5 flex-shrink-0"
+                  />
                   <span className="text-gray-500 text-sm">+84 24 123 456</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <MapPin size={16} className="text-primary mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-500 text-sm">Hà Nội, Việt Nam</span>
+                  <MapPin
+                    size={16}
+                    className="text-primary mt-0.5 flex-shrink-0"
+                  />
+                  <span className="text-gray-500 text-sm">
+                    Hà Nội, Việt Nam
+                  </span>
                 </li>
               </ul>
             </div>
@@ -136,16 +164,26 @@ export default function Footer() {
           {/* Bottom Section */}
           <div className="flex flex-col md:flex-row justify-between items-center gap-4">
             <p className="text-gray-500 text-sm">
-              © 2025 Làn Sóng Xanh. Bản quyền được bảo vệ. Tất cả quyền được bảo lưu.
+              © 2025 Làn Sóng Xanh. Bản quyền được bảo vệ. Tất cả quyền được bảo
+              lưu.
             </p>
             <div className="flex gap-6">
-              <Link href="#" className="text-gray-500 hover:text-primary text-sm transition-colors">
+              <Link
+                href="#"
+                className="text-gray-500 hover:text-primary text-sm transition-colors"
+              >
                 Điều khoản sử dụng
               </Link>
-              <Link href="#" className="text-gray-500 hover:text-primary text-sm transition-colors">
+              <Link
+                href="#"
+                className="text-gray-500 hover:text-primary text-sm transition-colors"
+              >
                 Chính sách bảo mật
               </Link>
-              <Link href="#" className="text-gray-500 hover:text-primary text-sm transition-colors">
+              <Link
+                href="#"
+                className="text-gray-500 hover:text-primary text-sm transition-colors"
+              >
                 Liên hệ hỗ trợ
               </Link>
             </div>
