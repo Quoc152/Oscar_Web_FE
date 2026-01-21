@@ -1,15 +1,48 @@
 "use client";
 
 import React, { useState } from "react";
+import { useAuth } from "@/context/AuthContext";
+import NotificationPopup from "@/components/ui/NotificationPopup";
 
 export default function HeroSection() {
+  const { isAuthenticated, login } = useAuth();
   const [showAuthPopup, setShowAuthPopup] = useState(false);
   const [employeeId, setEmployeeId] = useState("");
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
 
-  const handleConfirm = () => {
-    console.log("Xác nhận mã nhân viên:", employeeId);
-    setShowAuthPopup(false);
+  // Notification state
+  const [notification, setNotification] = useState<{
+    show: boolean;
+    type: "success" | "error" | "warning" | "info";
+    title?: string;
+    message: string;
+  }>({
+    show: false,
+    type: "info",
+    message: "",
+  });
 
+  const showNotification = (
+    type: "success" | "error" | "warning" | "info",
+    message: string,
+    title?: string,
+  ) => {
+    setNotification({ show: true, type, message, title });
+  };
+
+  const handleStartVoting = () => {
+    // Kiểm tra localStorage trước
+    if (isAuthenticated) {
+      // Đã đăng nhập, scroll xuống vote section
+      scrollToVoteSection();
+    } else {
+      // Chưa đăng nhập, mở popup
+      setShowAuthPopup(true);
+    }
+  };
+
+  const scrollToVoteSection = () => {
     setTimeout(() => {
       const voteSection = document.getElementById("vote");
       if (voteSection) {
@@ -20,6 +53,43 @@ export default function HeroSection() {
       }
     }, 100);
   };
+
+  const handleConfirm = async () => {
+    if (!employeeId.trim()) {
+      setError("Vui lòng nhập mã nhân viên");
+      return;
+    }
+
+    // Kiểm tra format mã nhân viên
+    if (employeeId.trim().length < 4) {
+      setError("Mã nhân viên không hợp lệ");
+      return;
+    }
+
+    setIsLoading(true);
+    setError("");
+
+    try {
+      await login(employeeId.trim());
+      setShowAuthPopup(false);
+      setEmployeeId("");
+
+      // Thông báo đăng nhập thành công
+      showNotification(
+        "success",
+        "Chào mừng bạn đến với Oscar Techvify 2026!",
+        "Đăng nhập thành công",
+      );
+
+      scrollToVoteSection();
+    } catch (err) {
+      setError("Đăng nhập thất bại. Vui lòng kiểm tra mã nhân viên.");
+      console.error("Login error:", err);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
   return (
     <section className="relative w-full min-h-screen flex items-center justify-center pt-20 overflow-hidden bg-midnight">
       {/* 1. LAYER NỀN: HIỆU ỨNG ÁNH SÁNG & SAO */}
@@ -65,10 +135,10 @@ export default function HeroSection() {
             </p>
           </div>
 
-          {/* Nút bấm kích hoạt Popup (Đã sửa lỗi onClick) */}
+          {/* Nút bấm kích hoạt Popup */}
           <div className="flex flex-col sm:flex-row gap-6 items-center animate-in fade-in slide-in-from-bottom-8 duration-1000 delay-500">
             <button
-              onClick={() => setShowAuthPopup(true)}
+              onClick={handleStartVoting}
               className="group relative cursor-pointer px-10 py-4 overflow-hidden rounded-full transition-all duration-300 transform hover:scale-105 active:scale-95 shadow-[0_0_40px_rgba(255,215,0,0.4)]"
             >
               <div className="absolute inset-0 bg-linear-to-r from-golden-dark via-golden-light to-golden-dark" />
@@ -112,25 +182,38 @@ export default function HeroSection() {
                   </label>
                   <input
                     type="text"
-                    placeholder="VD: TVF12345"
+                    placeholder="VD: T0117"
                     value={employeeId}
                     onChange={(e) =>
                       setEmployeeId(e.target.value.toUpperCase())
                     }
-                    className="w-full bg-dark-blue/40 border border-white/10 rounded-xl p-4 text-white text-lg font-bold focus:border-golden/50 outline-none transition-all placeholder:text-gray-700"
+                    onKeyPress={(e) => {
+                      if (e.key === "Enter") handleConfirm();
+                    }}
+                    disabled={isLoading}
+                    className="w-full bg-dark-blue/40 border border-white/10 rounded-xl p-4 text-white text-lg font-bold focus:border-golden/50 outline-none transition-all placeholder:text-gray-700 disabled:opacity-50"
                   />
+                  {error && (
+                    <p className="text-red-400 text-xs pl-1">{error}</p>
+                  )}
                 </div>
 
                 <div className="flex flex-col gap-3">
                   <button
                     onClick={handleConfirm}
-                    className="cursor-pointer w-full py-4 bg-linear-to-r from-golden-dark via-golden-light to-golden-dark text-midnight text-xs font-black uppercase tracking-[0.2em] rounded-xl shadow-[0_10px_20px_rgba(138,110,47,0.3)] hover:shadow-golden/40 transition-all active:scale-95"
+                    disabled={isLoading}
+                    className="cursor-pointer w-full py-4 bg-linear-to-r from-golden-dark via-golden-light to-golden-dark text-midnight text-xs font-black uppercase tracking-[0.2em] rounded-xl shadow-[0_10px_20px_rgba(138,110,47,0.3)] hover:shadow-golden/40 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
-                    XÁC NHẬN TRUY CẬP
+                    {isLoading ? "ĐANG XỬ LÝ..." : "XÁC NHẬN TRUY CẬP"}
                   </button>
                   <button
-                    onClick={() => setShowAuthPopup(false)}
-                    className="cursor-pointer w-full py-3 text-gray-500 text-[10px] font-bold uppercase tracking-widest hover:text-white transition-colors"
+                    onClick={() => {
+                      setShowAuthPopup(false);
+                      setError("");
+                      setEmployeeId("");
+                    }}
+                    disabled={isLoading}
+                    className="cursor-pointer w-full py-3 text-gray-500 text-[10px] font-bold uppercase tracking-widest hover:text-white transition-colors disabled:opacity-50"
                   >
                     HỦY BỎ
                   </button>
@@ -140,6 +223,15 @@ export default function HeroSection() {
           </div>
         </div>
       )}
+
+      {/* NotificationPopup */}
+      <NotificationPopup
+        show={notification.show}
+        type={notification.type}
+        title={notification.title}
+        message={notification.message}
+        onClose={() => setNotification({ ...notification, show: false })}
+      />
     </section>
   );
 }

@@ -3,6 +3,9 @@ export interface Artist {
   name: string;
   image: string;
   category: string;
+  employeeId?: string;
+  englishname?: string;
+  votecount?: number;
 }
 
 export interface Category {
