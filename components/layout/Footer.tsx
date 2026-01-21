@@ -10,6 +10,7 @@ import {
   Phone,
   MapPin,
 } from "lucide-react";
+import Image from "next/image";
 
 export default function Footer() {
   return (
@@ -25,13 +26,13 @@ export default function Footer() {
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
             {/* Company Info */}
             <div>
-              <h3 className="text-white font-bold text-lg mb-4 flex items-center gap-2">
-                <div className="w-8 h-8 bg-gradient-to-r from-primary to-blue-700 rounded-lg flex items-center justify-center">
-                  <span className="text-black font-bold text-sm">✦</span>
-                </div>
-                LÀNSÓNG
-              </h3>
-              <p className="text-gray-500 text-sm leading-relaxed">
+              <Image
+                src="/logo/techvify_logo_white.svg"
+                alt="Techvify Logo"
+                width={150}
+                height={50}
+              />
+              <p className="text-gray-500 text-sm leading-relaxed mt-5">
                 Chương trình trao giải âm nhạc hàng năm, tôn vinh những nghệ sĩ
                 tài ba và những bài hát hay nhất.
               </p>
@@ -85,26 +86,17 @@ export default function Footer() {
               </h4>
               <ul className="space-y-3">
                 <li className="flex items-start gap-3">
-                  <Mail
-                    size={16}
-                    className="text-primary mt-0.5 flex-shrink-0"
-                  />
+                  <Mail size={16} className="text-primary mt-0.5 shrink-0" />
                   <span className="text-gray-500 text-sm break-all">
                     info@lansongxanh.vn
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <Phone
-                    size={16}
-                    className="text-primary mt-0.5 flex-shrink-0"
-                  />
+                  <Phone size={16} className="text-primary mt-0.5 shrink-0" />
                   <span className="text-gray-500 text-sm">+84 24 123 456</span>
                 </li>
                 <li className="flex items-start gap-3">
-                  <MapPin
-                    size={16}
-                    className="text-primary mt-0.5 flex-shrink-0"
-                  />
+                  <MapPin size={16} className="text-primary mt-0.5 shrink-0" />
                   <span className="text-gray-500 text-sm">
                     Hà Nội, Việt Nam
                   </span>

@@ -8,9 +8,9 @@ const _geist = Geist({ subsets: ["latin"] });
 const _geistMono = Geist_Mono({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "Làn Sóng Xanh 2025 - Bình Chọn Nghệ Sĩ Yêu Thích",
+  title: "A Night of Stars",
   description:
-    "Bình chọn những nghệ sĩ yêu thích nhất của bạn tại Làn Sóng Xanh 2025 - Chương trình trao giải âm nhạc hàng năm lớn nhất Việt Nam.",
+    "Bình chọn những nhân viên xuất sắc nhất trong đêm hội A Night of Stars 2026",
   generator: "v0.app",
   icons: {
     icon: [

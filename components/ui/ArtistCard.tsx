@@ -1,82 +1,57 @@
 "use client";
 
 import { useState } from "react";
-import { Heart } from "lucide-react";
 import { Artist } from "@/lib/types";
+import Image from "next/image";
 
 interface ArtistCardProps {
   artist: Artist;
-  onVote?: (artistId: string) => void;
+  onVoteClick: (artist: Artist) => void;
 }
 
-export default function ArtistCard({ artist, onVote }: ArtistCardProps) {
-  const [isHovered, setIsHovered] = useState(false);
-  const [isVoted, setIsVoted] = useState(false);
-
-  const handleVote = () => {
-    setIsVoted(!isVoted);
-    onVote?.(artist.id);
-  };
-
+export default function ArtistCard({ artist, onVoteClick }: ArtistCardProps) {
   return (
-    <div
-      className="relative group h-full"
-      onMouseEnter={() => setIsHovered(true)}
-      onMouseLeave={() => setIsHovered(false)}
-    >
-      <div className="relative overflow-hidden rounded-lg h-96 bg-gradient-to-br from-gray-900 to-black">
-        {/* Image container */}
-        <div
-          className={`w-full h-full bg-gray-800 flex items-center justify-center transition-transform duration-300 ${
-            isHovered ? "scale-110" : "scale-100"
-          }`}
-        >
-          {/* Placeholder for artist image */}
-          <div className="w-full h-full bg-gradient-to-br from-primary/20 to-blue-700/20 flex items-center justify-center text-gray-600">
-            <div className="text-center">
-              <div className="text-4xl mb-2">♫</div>
-              <p className="text-sm">{artist.name}</p>
-            </div>
+    <div className="flex flex-col bg-white/5 border border-white/5 rounded-xl overflow-hidden hover:border-golden/40 transition-all duration-500 group relative">
+      {/* 1. Portrait Image Container */}
+      <div className="relative h-72 overflow-hidden bg-gray-900">
+        <Image
+          src={artist.image || "/avatar_default.jpg"}
+          alt={artist.name}
+          width={400}
+          height={400}
+          className="w-full h-full object-cover transition-transform duration-1000 ease-out group-hover:scale-110"
+        />
+        {/* Overlay gradient */}
+        <div className="absolute inset-0 bg-linear-to-t from-midnight via-transparent to-transparent opacity-80" />
+      </div>
+
+      {/* 2. Swapping Info & Button Section */}
+      <div className="relative h-24 p-5 overflow-hidden bg-midnight/50 backdrop-blur-sm">
+        <div className="flex flex-col h-full transition-transform duration-500 ease-in-out transform group-hover:-translate-y-[120%]">
+          {/* STATE 1: Artist Info (Mặc định hiện lên) */}
+          <div className="flex flex-col items-center justify-center min-h-full transition-opacity duration-300 group-hover:opacity-0">
+            <h3 className="text-white font-black text-lg tracking-tighter uppercase leading-tight">
+              {artist.name}
+            </h3>
+            <p className="text-gray-500 text-[10px] uppercase tracking-widest mt-1">
+              {artist.category}
+            </p>
           </div>
-        </div>
 
-        {/* Overlay gradient on hover */}
-        {isHovered && (
-          <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-transparent to-transparent" />
-        )}
+          {/* Khoảng cách đệm giữa 2 trạng thái */}
+          <div className="min-h-5" />
 
-        {/* Vote button - appears on hover */}
-        {isHovered && (
-          <div className="absolute inset-0 flex items-center justify-center transition-opacity duration-300">
+          {/* STATE 2: Vote Button (Hiện lên khi hover) */}
+          <div className="flex flex-col items-center justify-center min-h-full">
             <button
-              onClick={handleVote}
-              className={`flex items-center gap-2 px-6 py-3 rounded-lg font-bold transition-all duration-300 ${
-                isVoted
-                  ? "bg-primary text-black shadow-lg shadow-primary/50"
-                  : "bg-white/10 border border-white/30 text-white hover:bg-white/20"
-              }`}
+              onClick={() => onVoteClick(artist)}
+              className="cursor-pointer w-full py-3.5 bg-linear-to-r from-golden-dark via-golden-light to-golden-dark text-midnight text-[11px] font-black uppercase tracking-[0.2em] rounded-lg shadow-[0_0_15px_rgba(255,215,0,0.3)] hover:shadow-golden/50 transition-all active:scale-95"
             >
-              <Heart size={20} fill={isVoted ? "currentColor" : "none"} />
-              {isVoted ? "ĐÃ BÌNH CHỌN" : "BÌNH CHỌN"}
+              Bình chọn ngay
             </button>
           </div>
-        )}
-      </div>
-
-      {/* Artist name */}
-      <div className="mt-4 text-center">
-        <h3 className="text-white font-bold text-sm tracking-wider uppercase">
-          {artist.name}
-        </h3>
-        <p className="text-gray-500 text-xs mt-1">{artist.category}</p>
-      </div>
-
-      {/* Vote count indicator (appears when voted) */}
-      {isVoted && (
-        <div className="absolute top-3 right-3 w-8 h-8 bg-primary text-black rounded-full flex items-center justify-center text-xs font-bold">
-          ✓
         </div>
-      )}
+      </div>
     </div>
   );
 }
