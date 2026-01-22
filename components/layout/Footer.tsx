@@ -26,7 +26,7 @@ export default function Footer() {
           {/* Bottom Section */}
           <div className="flex flex-col md:flex-row justify-center items-center gap-4">
             <p className="text-gray-500 text-sm text-center">
-              2025 © Techvify. All Rights Reserved
+              2026 © Techvify. All Rights Reserved
             </p>
             {/* <div className="flex gap-6">
               <h5 className="text-gray-500 text-sm">Liên hệ hỗ trợ:</h5>

@@ -27,7 +27,7 @@ const sora = Sora({
 export const metadata: Metadata = {
   title: "TECHVIFY MULTIVERSE - EVOLUTION SAGA",
   description:
-    "Bình chọn những nhân viên xuất sắc nhất trong đêm hội A Night of Stars 2026",
+    "Bình chọn những nhân viên xuất sắc nhất trong đêm hội Oscar 2026",
   generator: "v0.app",
   icons: {
     icon: "/techvify_icon.ico",

@@ -23,7 +23,7 @@ const DEVELOPERS = [
 
 const ACADEMY_CONTENT = {
   header: {
-    subTitle: "Techvify Oscar Awards 2025",
+    subTitle: "Techvify Oscar Awards 2026",
     title: "Welcome to techvify",
     description:
       "Techvify Corporation is your trusted AI-Powered Digital Transformation Partner. With 500+ seasoned engineers, we deliver high-quality AI Solutions & Software that accelerate innovation and drive business growth.",
