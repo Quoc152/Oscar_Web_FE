@@ -1,12 +1,21 @@
 import React from "react";
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Montserrat, Inter } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { AuthProvider } from "@/context/AuthContext";
 import "./globals.css";
 
-const _geist = Geist({ subsets: ["latin"] });
-const _geistMono = Geist_Mono({ subsets: ["latin"] });
+const montserrat = Montserrat({
+  subsets: ["latin"],
+  variable: "--font-heading",
+  display: "swap",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-body",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "A Night of Stars",
@@ -14,21 +23,9 @@ export const metadata: Metadata = {
     "Bình chọn những nhân viên xuất sắc nhất trong đêm hội A Night of Stars 2026",
   generator: "v0.app",
   icons: {
-    icon: [
-      {
-        url: "/icon-light-32x32.png",
-        media: "(prefers-color-scheme: light)",
-      },
-      {
-        url: "/icon-dark-32x32.png",
-        media: "(prefers-color-scheme: dark)",
-      },
-      {
-        url: "/icon.svg",
-        type: "image/svg+xml",
-      },
-    ],
-    apple: "/apple-icon.png",
+    icon: "/techvify_icon.ico",
+    shortcut: "/techvify_icon.ico",
+    apple: "/techvify_icon.ico",
   },
 };
 
@@ -39,7 +36,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="vi" suppressHydrationWarning>
-      <body className={`font-sans antialiased bg-background`}>
+      <body
+        className={`${montserrat.variable} ${inter.variable} font-body antialiased bg-background`}
+      >
         <AuthProvider>
           {children}
           <Analytics />

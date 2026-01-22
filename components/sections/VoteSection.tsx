@@ -267,9 +267,8 @@ export default function VoteSection() {
                     {currentCategory.name}
                   </h2>
                   <p className="text-gray-500 text-sm leading-relaxed border-l-2 border-golden/30 pl-4">
-                    Dành tặng cho nghệ sĩ/nhân viên có đóng góp xuất sắc nhất
-                    trong năm 2025. Cuộc bình chọn thuộc vòng{" "}
-                    {currentCategory.round}.
+                    Dành tặng cho nhân viên có đóng góp xuất sắc nhất trong năm
+                    2026.
                   </p>
                 </div>
 
@@ -398,7 +397,7 @@ export default function VoteSection() {
                   </label>
                   <input
                     type="text"
-                    placeholder="VD: T0117"
+                    placeholder="VD: T0123"
                     value={employeeId}
                     onChange={(e) =>
                       setEmployeeId(e.target.value.toUpperCase())

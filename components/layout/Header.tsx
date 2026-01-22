@@ -95,12 +95,14 @@ export default function Header() {
           )}
 
           {/* Mobile Menu Button */}
-          <button
-            className="md:hidden text-golden p-2"
-            onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-          >
-            {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
-          </button>
+          {isAuthenticated && (
+            <button
+              className="md:hidden text-golden p-2"
+              onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
+            >
+              {mobileMenuOpen ? <X size={28} /> : <Menu size={28} />}
+            </button>
+          )}
         </div>
 
         {/* Mobile Menu */}

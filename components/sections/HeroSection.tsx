@@ -182,7 +182,7 @@ export default function HeroSection() {
                   </label>
                   <input
                     type="text"
-                    placeholder="VD: T0117"
+                    placeholder="VD: T0123"
                     value={employeeId}
                     onChange={(e) =>
                       setEmployeeId(e.target.value.toUpperCase())
