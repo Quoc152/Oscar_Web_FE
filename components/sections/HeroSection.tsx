@@ -114,7 +114,7 @@ export default function HeroSection() {
           <div className="flex items-center gap-4 mb-6 animate-in fade-in slide-in-from-bottom-4 duration-1000">
             <div className="h-px w-8 sm:w-12 bg-linear-to-r from-transparent to-primary" />
             <p className="text-gradient-tech text-[10px] sm:text-xs font-black tracking-[0.5em] uppercase">
-              Techvify Oscar Awards 2026
+              Techvify Oscar Awards 2025
             </p>
             <div className="h-px w-8 sm:w-12 bg-linear-to-l from-transparent to-primary" />
           </div>
