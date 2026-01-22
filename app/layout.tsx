@@ -1,6 +1,6 @@
 import React from "react";
 import type { Metadata } from "next";
-import { Montserrat, Inter } from "next/font/google";
+import { Montserrat, Inter, Sora } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
 import { AuthProvider } from "@/context/AuthContext";
 import "./globals.css";
@@ -17,8 +17,15 @@ const inter = Inter({
   display: "swap",
 });
 
+const sora = Sora({
+  subsets: ["latin"],
+  weight: ["300", "400", "600", "700", "800"],
+  variable: "--font-sora",
+  display: "swap",
+});
+
 export const metadata: Metadata = {
-  title: "A Night of Stars",
+  title: "TECHVIFY MULTIVERSE - EVOLUTION SAGA",
   description:
     "Bình chọn những nhân viên xuất sắc nhất trong đêm hội A Night of Stars 2026",
   generator: "v0.app",
@@ -37,7 +44,7 @@ export default function RootLayout({
   return (
     <html lang="vi" suppressHydrationWarning>
       <body
-        className={`${montserrat.variable} ${inter.variable} font-body antialiased bg-background`}
+        className={`${montserrat.variable} ${inter.variable} ${sora.variable} font-body antialiased bg-background`}
       >
         <AuthProvider>
           {children}

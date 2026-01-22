@@ -45,11 +45,11 @@ export default function ConfirmPopup({
   const getColorClasses = () => {
     switch (type) {
       case "danger":
-        return "border-red-400/30 bg-midnight";
+        return "border-red-400/30 bg-card";
       case "warning":
-        return "border-golden/30 bg-midnight";
+        return "border-primary/30 bg-card";
       case "info":
-        return "border-blue-400/30 bg-midnight";
+        return "border-blue-400/30 bg-card";
     }
   };
 
@@ -58,7 +58,7 @@ export default function ConfirmPopup({
       case "danger":
         return "text-red-400";
       case "warning":
-        return "text-golden";
+        return "text-gradient-tech";
       case "info":
         return "text-blue-400";
     }
@@ -71,7 +71,7 @@ export default function ConfirmPopup({
         className={`relative max-w-sm w-full p-8 rounded-2xl border shadow-[0_0_50px_rgba(0,0,0,0.5)] animate-in zoom-in-95 duration-300 ${getColorClasses()}`}
       >
         {/* Hiệu ứng ánh sáng vàng nhẹ phía sau */}
-        <div className="absolute -top-24 -left-24 w-48 h-48 bg-golden/5 rounded-full blur-3xl pointer-events-none" />
+        <div className="absolute -top-24 -left-24 w-48 h-48 bg-primary/5 rounded-full blur-3xl pointer-events-none" />
 
         <div className="flex flex-col items-center text-center mb-8 relative z-10">
           <div className={`p-3 rounded-full bg-white/5 mb-4 ${getIconColor()}`}>
@@ -91,7 +91,7 @@ export default function ConfirmPopup({
             className={`cursor-pointer w-full py-4 rounded-xl text-xs font-black uppercase tracking-[0.2em] transition-all active:scale-95 ${
               type === "danger"
                 ? "bg-red-500 text-white shadow-lg shadow-red-500/20"
-                : "bg-linear-to-r from-golden-dark via-golden-light to-golden-dark text-midnight shadow-lg shadow-golden/20"
+                : "bg-linear-to-r from-grad-start via-grad-via to-grad-end text-white shadow-lg shadow-accent/20"
             }`}
           >
             {confirmText}

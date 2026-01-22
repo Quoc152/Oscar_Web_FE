@@ -3,52 +3,86 @@
 
 @custom-variant dark (&:is(.dark *));
 
+/* ========== OLD THEME (Golden/Midnight) - COMMENTED OUT ==========
 :root {
-  /* Core Brand Colors */
   --midnight: #0a0a0a;
   --dark-blue: #1a1a2e;
-
-  /* Golden Palette for Gradient */
   --golden-light: #fff2ad;
   --golden: #ffd700;
   --golden-dark: #8a6e2f;
 
-  /* UI Functional Colors */
   --background: var(--midnight);
   --foreground: #ffffff;
-
   --card: #121212;
   --card-foreground: #ffffff;
-
   --popover: var(--midnight);
   --popover-foreground: #ffffff;
-
   --primary: var(--golden);
   --primary-foreground: var(--midnight);
-
   --secondary: var(--dark-blue);
   --secondary-foreground: #ffffff;
-
   --muted: #2d2d44;
   --muted-foreground: #a1a1aa;
-
   --accent: var(--golden);
   --accent-foreground: var(--midnight);
-
   --destructive: #ff4444;
   --destructive-foreground: #ffffff;
-
   --border: #2a2a40;
   --input: #1a1a2e;
   --ring: var(--golden);
-
   --radius: 0.625rem;
 }
+========== END OLD THEME ========== */
 
+/* ========== NEW THEME (Deep Blue Tech with Vibrant Gradients) ========== */
+:root {
+  /* Brand Colors - New Deep Blue Tech Theme */
+  --bg-deep: #01010f;
+  --primary-blue: #0060ff;
+  --primary-hover: #0056e6;
+
+  /* Vibrant Gradient Palette */
+  --grad-start: #ff9055; /* Orange-ish */
+  --grad-via: #df3dcc; /* Magenta/Pink */
+  --grad-end: #d119ff; /* Purple/Violet */
+
+  /* UI Functional Colors */
+  --background: var(--bg-deep);
+  --foreground: #ededed;
+
+  --card: #0a0a1a; /* Darker navy for cards */
+  --card-foreground: #f9fafb;
+
+  --popover: var(--bg-deep);
+  --popover-foreground: #ededed;
+
+  --primary: var(--primary-blue);
+  --primary-foreground: #ffffff;
+
+  --secondary: #1a1a2e;
+  --secondary-foreground: #ededed;
+
+  --muted: #111827;
+  --muted-foreground: #9ca3af;
+
+  --accent: var(--grad-via);
+  --accent-foreground: #ffffff;
+
+  --destructive: #ef4444;
+  --destructive-foreground: #ffffff;
+
+  --border: #1e1e38; /* Deep blue border */
+  --input: #0f172a;
+  --ring: var(--primary-blue);
+
+  --radius: 0.75rem;
+}
+
+/* Dark mode tinh chỉnh lại độ tương phản */
 .dark {
-  --background: #050505;
-  --card: #0a0a0a;
-  --border: #1a1a2e;
+  --background: #010108;
+  --card: #050512;
+  --border: #16162d;
 }
 
 @theme inline {
@@ -78,6 +112,14 @@
   --color-border: var(--border);
   --color-ring: var(--ring);
 
+  /* Brand specific colors */
+  --color-deep: var(--bg-deep);
+  --color-primary-blue: var(--primary-blue);
+  --color-grad-start: var(--grad-start);
+  --color-grad-via: var(--grad-via);
+  --color-grad-end: var(--grad-end);
+
+  /* Radius */
   --radius-sm: calc(var(--radius) - 4px);
   --radius-md: calc(var(--radius) - 2px);
   --radius-lg: var(--radius);
@@ -89,7 +131,7 @@
     @apply border-border outline-ring/50;
   }
   body {
-    @apply bg-background text-foreground antialiased;
+    @apply bg-background text-foreground antialiased font-body;
   }
   h1,
   h2,
@@ -97,19 +139,49 @@
   h4,
   h5,
   h6 {
-    @apply font-heading;
+    @apply font-heading tracking-tight;
   }
 }
 
 @layer utilities {
   .custom-scrollbar::-webkit-scrollbar {
-    width: 3px;
+    width: 4px;
   }
   .custom-scrollbar::-webkit-scrollbar-track {
-    background: rgba(255, 255, 255, 0.05);
+    background: rgba(1, 1, 15, 0.5);
   }
   .custom-scrollbar::-webkit-scrollbar-thumb {
-    background: #ffd700;
+    background: var(--primary-blue);
     border-radius: 10px;
   }
+
+  /* Gradient text utility */
+  .text-gradient-tech {
+    background: linear-gradient(
+      to right,
+      var(--grad-start) 1.95%,
+      var(--grad-via) 69.42%,
+      var(--grad-end) 100%
+    );
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+  }
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 5rem;
+}
+
+nextjs-portal,
+#nextjs-portal,
+[data-nextjs-toast-wrapper],
+[data-nextjs-indicator],
+[data-nextjs-vitals-indicator],
+[data-nextjs-static-indicator] {
+  display: none !important;
+  visibility: hidden !important;
+  pointer-events: none !important;
 }
