@@ -201,8 +201,10 @@ export default function VoteSection() {
       if (selectedArtist) {
         setShowPopup(true);
       }
-    } catch (err) {
-      setError("Đăng nhập thất bại. Vui lòng kiểm tra mã nhân viên.");
+    } catch (err: any) {
+      const errorMessage =
+        err?.message || "Đăng nhập thất bại. Vui lòng kiểm tra mã nhân viên.";
+      setError(errorMessage);
       console.error("Login error:", err);
     } finally {
       setIsLoading(false);
@@ -258,9 +260,11 @@ export default function VoteSection() {
         `Đã bình chọn thành công ${voteCount} phiếu cho ${artistName}!`,
         "Thành công",
       );
-    } catch (error) {
+    } catch (error: any) {
       console.error("Vote error:", error);
-      showNotification("error", "Bình chọn thất bại. Vui lòng thử lại!", "Lỗi");
+      const errorMessage =
+        error?.message || "Bình chọn thất bại. Vui lòng thử lại!";
+      showNotification("error", errorMessage, "Lỗi");
     } finally {
       setIsVoting(false);
     }
@@ -415,7 +419,7 @@ export default function VoteSection() {
                       }
                     }}
                     disabled={isVoting}
-                    className="w-20 text-4xl font-black text-gradient-tech text-center bg-transparent border-none outline-none drop-shadow-[0_0_15px_rgba(0,96,255,0.5)] disabled:opacity-50"
+                    className="w-20 text-4xl font-black text-gradient-tech text-center bg-transparent border-none outline-none drop-shadow-[0_0_15px_rgba(0,96,255,0.5)] disabled:opacity-50 caret-primary focus:drop-shadow-[0_0_25px_rgba(223,61,204,0.8)] transition-all duration-300"
                   />
                   <span className="text-[8px] text-primary/50 font-bold uppercase tracking-tighter">
                     Phiếu

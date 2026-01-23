@@ -74,9 +74,9 @@ export default function NotificationPopup({
   };
 
   return (
-    <div className="fixed inset-0 z-100 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
+    <div className="overflow-hidden fixed inset-0 z-100 flex items-center justify-center p-4 bg-black/60 backdrop-blur-sm animate-in fade-in duration-200">
       <div
-        className={`relative max-w-md w-full p-6 rounded-2xl border ${getColorClasses()} shadow-2xl animate-in slide-in-from-top-4 duration-300`}
+        className={`relative max-w-md w-full p-6 rounded-2xl border overflow-hidden ${getColorClasses()} shadow-2xl animate-in slide-in-from-top-4 duration-300`}
       >
         {/* Close Button */}
         <button

@@ -30,14 +30,10 @@ export const loginWithEmployeeId = async (
       body: JSON.stringify({ employeeId }),
     });
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
-    }
+    const data: any = await response.json();
 
-    const data: LoginResponse = await response.json();
-
-    if (!data.success) {
-      throw new Error("Login failed");
+    if (!response.ok || !data.success) {
+      throw new Error(data.message || "Login failed");
     }
 
     return data;

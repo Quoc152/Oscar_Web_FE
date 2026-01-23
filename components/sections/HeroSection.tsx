@@ -86,8 +86,10 @@ export default function HeroSection() {
       );
 
       scrollToVoteSection();
-    } catch (err) {
-      setError("Đăng nhập thất bại. Vui lòng kiểm tra mã nhân viên.");
+    } catch (err: any) {
+      const errorMessage =
+        err?.message || "Đăng nhập thất bại. Vui lòng kiểm tra mã nhân viên.";
+      setError(errorMessage);
       console.error("Login error:", err);
     } finally {
       setIsLoading(false);

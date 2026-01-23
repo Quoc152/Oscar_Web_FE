@@ -38,11 +38,12 @@ export const submitVote = async (
       }),
     });
 
-    if (!response.ok) {
-      throw new Error(`HTTP error! status: ${response.status}`);
+    const data = await response.json();
+
+    if (!response.ok || !data.success) {
+      throw new Error(data.message || `HTTP error! status: ${response.status}`);
     }
 
-    const data = await response.json();
     return { success: true, ...data };
   } catch (error) {
     console.error("Submit vote API error:", error);
