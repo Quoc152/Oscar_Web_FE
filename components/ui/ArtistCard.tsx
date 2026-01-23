@@ -52,9 +52,9 @@ export default function ArtistCard({ artist, onVoteClick }: ArtistCardProps) {
             <h3 className="text-gradient-tech font-black text-base md:text-lg tracking-tighter uppercase leading-tight text-center w-full line-clamp-1 italic font-heading">
               {artist.englishname || artist.name}
             </h3>
-            <p className="text-gray-500 text-[8px] md:text-[9px] uppercase tracking-[0.2em] mt-1 md:mt-2">
+            {/* <p className="text-gray-500 text-[8px] md:text-[9px] uppercase tracking-[0.2em] mt-1 md:mt-2">
               {artist.category}
-            </p>
+            </p> */}
           </div>
 
           {/* STATE 2: Vote Button - Cũng chiếm full h-28 trên Desktop để căn giữa nút */}

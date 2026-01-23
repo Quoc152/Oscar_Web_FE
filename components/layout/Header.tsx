@@ -25,12 +25,15 @@ export default function Header() {
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
+  const maxVotesPerBallot = parseInt(
+    process.env.NEXT_PUBLIC_MAX_VOTES_PER_BALLOT || "5",
+    10,
+  );
+
   return (
     <header
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out ${
-        isScrolled
-          ? "bg-background/90 backdrop-blur-xl py-0"
-          : "bg-transparent"
+        isScrolled ? "bg-background/90 backdrop-blur-xl py-0" : "bg-transparent"
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -70,7 +73,7 @@ export default function Header() {
                     <span className="text-lg font-black text-gradient-tech leading-none tracking-tighter">
                       {dailyVoteRemaining}{" "}
                       <span className="text-xs text-primary/60 font-medium">
-                        / 5
+                        / {maxVotesPerBallot}
                       </span>
                     </span>
                   </div>

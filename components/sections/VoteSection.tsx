@@ -13,7 +13,7 @@ export default function VoteSection() {
   const [showPopup, setShowPopup] = useState(false);
   const [showAuthPopup, setShowAuthPopup] = useState(false);
   const [selectedArtist, setSelectedArtist] = useState<any>(null);
-  const [voteAmount, setVoteAmount] = useState(1);
+  const [voteAmount, setVoteAmount] = useState<number | "">(1);
   const [employeeId, setEmployeeId] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [isVoting, setIsVoting] = useState(false);
@@ -40,6 +40,12 @@ export default function VoteSection() {
     decrementVote,
     employeeId: loggedInEmployeeId,
   } = useAuth();
+
+  // Lấy config từ environment
+  const maxVotesPerBallot = parseInt(
+    process.env.NEXT_PUBLIC_MAX_VOTES_PER_BALLOT || "5",
+    10,
+  );
 
   const showNotification = (
     type: "success" | "error" | "warning" | "info",
@@ -208,14 +214,16 @@ export default function VoteSection() {
       return;
     }
 
+    const voteCount = typeof voteAmount === "number" ? voteAmount : 1;
+
     // Validation số lượng vote
-    if (voteAmount < 1 || voteAmount > 5) {
+    if (voteCount < 1 || voteCount > maxVotesPerBallot) {
       showNotification("error", "Số lượng phiếu không hợp lệ!", "Lỗi");
       return;
     }
 
     // Kiểm tra đủ lượt vote không
-    if (voteAmount > dailyVoteRemaining) {
+    if (voteCount > dailyVoteRemaining) {
       showNotification(
         "warning",
         `Bạn chỉ còn ${dailyVoteRemaining} lượt bình chọn!`,
@@ -231,23 +239,23 @@ export default function VoteSection() {
       await submitVote(
         loggedInEmployeeId,
         selectedArtist.employeeId || selectedArtist.id,
-        voteAmount,
+        voteCount,
       );
 
       // Giảm số lượt vote ĐÚNG SỐ LƯỢNG đã nhập
-      decrementVote(voteAmount);
+      decrementVote(voteCount);
 
       // Đóng popup và reset
       setShowPopup(false);
       setVoteAmount(1);
 
-      const artistName = selectedArtist.name;
+      const artistName = selectedArtist.englishname;
       setSelectedArtist(null);
 
       // Thông báo thành công
       showNotification(
         "success",
-        `Đã bình chọn thành công ${voteAmount} phiếu cho ${artistName}!`,
+        `Đã bình chọn thành công ${voteCount} phiếu cho ${artistName}!`,
         "Thành công",
       );
     } catch (error) {
@@ -297,7 +305,10 @@ export default function VoteSection() {
 
             {/* Cấu trúc chính: Sidebar Trái + Grid Phải */}
             {currentCategory && (
-              <div className="flex flex-col lg:flex-row gap-12 items-start">
+              <div
+                key={currentCategory.id}
+                className="flex flex-col lg:flex-row gap-12 items-start"
+              >
                 {/* SIDEBAR LEFT: Thông tin hạng mục  */}
                 <div className="w-full lg:w-1/4 lg:sticky lg:top-24">
                   <span className="text-gradient-tech text-[10px] font-bold uppercase tracking-[0.3em]">
@@ -345,13 +356,17 @@ export default function VoteSection() {
 
             <div className="space-y-6">
               <label className="text-gray-500 text-[10px] uppercase font-bold tracking-widest text-center block">
-                Số lượng phiếu bầu (Tối đa 5)
+                Số lượng phiếu bầu (Tối đa {maxVotesPerBallot})
               </label>
 
               {/* BỘ TĂNG GIẢM SANG TRỌNG */}
               <div className="flex items-center justify-between bg-secondary/60 border border-primary/10 rounded-2xl p-2 group">
                 <button
-                  onClick={() => setVoteAmount(Math.max(1, voteAmount - 1))}
+                  onClick={() => {
+                    const current =
+                      typeof voteAmount === "number" ? voteAmount : 1;
+                    setVoteAmount(Math.max(1, current - 1));
+                  }}
                   disabled={isVoting}
                   className=" cursor-pointer w-12 h-12 flex items-center justify-center rounded-xl border border-primary/30 text-primary text-xl transition-all hover:bg-primary/10 active:scale-90 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
@@ -359,23 +374,65 @@ export default function VoteSection() {
                 </button>
 
                 <div className="flex flex-col items-center">
-                  <span
-                    className="text-4xl font-black text-gradient-tech drop-shadow-[0_0_15px_rgba(0,96,255,0.5)] animate-in zoom-in duration-200"
-                    key={voteAmount}
-                  >
-                    {voteAmount}
-                  </span>
+                  <input
+                    type="text"
+                    inputMode="numeric"
+                    pattern="[0-9]*"
+                    value={voteAmount}
+                    onChange={(e) => {
+                      const value = e.target.value;
+
+                      // Cho phép xóa hết để nhập lại
+                      if (value === "") {
+                        setVoteAmount("" as any);
+                        return;
+                      }
+
+                      // Chỉ cho phép nhập số
+                      if (!/^\d+$/.test(value)) {
+                        return;
+                      }
+
+                      const numValue = parseInt(value, 10);
+
+                      // Validate và set giá trị
+                      if (
+                        numValue >= 1 &&
+                        numValue <=
+                          Math.min(maxVotesPerBallot, dailyVoteRemaining)
+                      ) {
+                        setVoteAmount(numValue);
+                      } else if (numValue > maxVotesPerBallot) {
+                        setVoteAmount(maxVotesPerBallot);
+                      } else if (numValue > dailyVoteRemaining) {
+                        setVoteAmount(dailyVoteRemaining);
+                      }
+                    }}
+                    onBlur={() => {
+                      // Khi blur, nếu rỗng hoặc 0 thì set về 1
+                      if (voteAmount === "" || voteAmount === 0) {
+                        setVoteAmount(1);
+                      }
+                    }}
+                    disabled={isVoting}
+                    className="w-20 text-4xl font-black text-gradient-tech text-center bg-transparent border-none outline-none drop-shadow-[0_0_15px_rgba(0,96,255,0.5)] disabled:opacity-50"
+                  />
                   <span className="text-[8px] text-primary/50 font-bold uppercase tracking-tighter">
                     Phiếu
                   </span>
                 </div>
 
                 <button
-                  onClick={() =>
+                  onClick={() => {
+                    const current =
+                      typeof voteAmount === "number" ? voteAmount : 1;
                     setVoteAmount(
-                      Math.min(5, Math.min(dailyVoteRemaining, voteAmount + 1)),
-                    )
-                  }
+                      Math.min(
+                        maxVotesPerBallot,
+                        Math.min(dailyVoteRemaining, current + 1),
+                      ),
+                    );
+                  }}
                   disabled={isVoting}
                   className=" cursor-pointer w-12 h-12 flex items-center justify-center rounded-xl border border-primary/30 text-primary text-xl transition-all hover:bg-primary/10 active:scale-90 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
@@ -384,16 +441,21 @@ export default function VoteSection() {
               </div>
 
               {/* Hiển thị warning nếu vote amount > remaining */}
-              {voteAmount > dailyVoteRemaining && (
-                <p className="text-red-400 text-xs text-center">
-                  Bạn chỉ còn {dailyVoteRemaining} lượt bình chọn!
-                </p>
-              )}
+              {typeof voteAmount === "number" &&
+                voteAmount > dailyVoteRemaining && (
+                  <p className="text-red-400 text-xs text-center">
+                    Bạn chỉ còn {dailyVoteRemaining} lượt bình chọn!
+                  </p>
+                )}
 
               <div className="flex flex-col gap-3 pt-4">
                 <button
                   onClick={handleSubmitVote}
-                  disabled={isVoting || voteAmount > dailyVoteRemaining}
+                  disabled={
+                    isVoting ||
+                    (typeof voteAmount === "number" &&
+                      voteAmount > dailyVoteRemaining)
+                  }
                   className="cursor-pointer w-full py-4 bg-linear-to-r from-grad-start via-grad-via to-grad-end text-white text-xs font-black uppercase tracking-[0.2em] rounded-xl shadow-[0_10px_20px_rgba(223,61,204,0.3)] hover:shadow-accent/40 transition-all active:scale-95 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                   {isVoting ? "ĐANG GỬI..." : "GỬI PHIẾU BÌNH CHỌN"}
