@@ -25,6 +25,7 @@ const sora = Sora({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL("https://techvify-oscar-awards.vercel.app/"),
   title: "TECHVIFY MULTIVERSE - EVOLUTION SAGA",
   description:
     "Bình chọn những nhân viên xuất sắc nhất trong đêm hội Oscar 2026",
@@ -33,7 +34,7 @@ export const metadata: Metadata = {
     title: "TECHVIFY MULTIVERSE - EVOLUTION SAGA",
     description:
       "Bình chọn những nhân viên xuất sắc nhất trong đêm hội Oscar 2026",
-    url: "https://techvify.oscarnight.io.vn/",
+    url: "https://techvify-oscar-awards.vercel.app//",
     siteName: "Techvify Oscar",
     images: [
       {
