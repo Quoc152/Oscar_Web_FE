@@ -29,6 +29,30 @@ export const metadata: Metadata = {
   description:
     "Bình chọn những nhân viên xuất sắc nhất trong đêm hội Oscar 2026",
   generator: "v0.app",
+  openGraph: {
+    title: "TECHVIFY MULTIVERSE - EVOLUTION SAGA",
+    description:
+      "Bình chọn những nhân viên xuất sắc nhất trong đêm hội Oscar 2026",
+    url: "https://techvify.oscarnight.io.vn/",
+    siteName: "Techvify Oscar",
+    images: [
+      {
+        url: "/logo/techvify_logo_ver2.png",
+        width: 1200,
+        height: 630,
+        alt: "Techvify Oscar Awards 2026",
+      },
+    ],
+    locale: "vi_VN",
+    type: "website",
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "TECHVIFY MULTIVERSE - EVOLUTION SAGA",
+    description:
+      "Bình chọn những nhân viên xuất sắc nhất trong đêm hội Oscar 2026",
+    images: ["/logo/techvify_logo_ver2.png"],
+  },
   icons: {
     icon: "/techvify_icon.ico",
     shortcut: "/techvify_icon.ico",
