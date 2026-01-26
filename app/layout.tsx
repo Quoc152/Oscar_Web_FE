@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     siteName: "Techvify Oscar",
     images: [
       {
-        url: "/logo/techvify_logo_ver2.png",
+        url: "/logo/techvify_logo_ver3.jpg",
         width: 1200,
         height: 630,
         alt: "Techvify Oscar Awards 2026",
@@ -52,7 +52,7 @@ export const metadata: Metadata = {
     title: "TECHVIFY MULTIVERSE - EVOLUTION SAGA",
     description:
       "Bình chọn những nhân viên xuất sắc nhất trong đêm hội Oscar 2026",
-    images: ["/logo/techvify_logo_ver2.png"],
+    images: ["/logo/techvify_logo_ver3.jpg"],
   },
   icons: {
     icon: "/techvify_icon.ico",
