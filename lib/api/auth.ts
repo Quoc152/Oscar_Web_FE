@@ -7,7 +7,7 @@ const API_BASE_URL =
   process.env.NEXT_PUBLIC_API_BASE_URL || "http://winestore.id.vn/api";
 
 export interface LoginRequest {
-  employeeId: string;
+  employeeId: string; // Format: T012315022003 (mã NV + ngày sinh DDMMYYYY)
 }
 
 export interface LoginResponse {
@@ -16,7 +16,8 @@ export interface LoginResponse {
 }
 
 /**
- * API đăng nhập bằng mã nhân viên
+ * API đăng nhập bằng mã nhân viên + ngày sinh (chuỗi gộp)
+ * Format: T012315022003 (mã NV + ngày sinh DDMMYYYY)
  */
 export const loginWithEmployeeId = async (
   employeeId: string,
@@ -27,7 +28,7 @@ export const loginWithEmployeeId = async (
       headers: {
         "Content-Type": "application/json",
       },
-      body: JSON.stringify({ employeeId }),
+      body: JSON.stringify({ employeeId: employeeId.trim().toUpperCase() }),
     });
 
     const data: any = await response.json();

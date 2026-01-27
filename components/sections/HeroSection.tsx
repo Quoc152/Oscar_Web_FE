@@ -60,13 +60,22 @@ export default function HeroSection() {
 
   const handleConfirm = async () => {
     if (!employeeId.trim()) {
-      setError("Vui lòng nhập mã nhân viên");
+      setError("Vui lòng nhập mã nhân viên + ngày sinh");
       return;
     }
 
-    // Kiểm tra format mã nhân viên
-    if (employeeId.trim().length < 4) {
-      setError("Mã nhân viên không hợp lệ");
+    // Kiểm tra format bắt buộc: T012315022003 (mã NV + 8 ký tự ngày sinh DDMMYYYY)
+    // Tối thiểu: 4 ký tự mã NV + 8 ký tự ngày sinh = 12 ký tự
+    const trimmed = employeeId.trim();
+    if (trimmed.length < 12) {
+      setError("Vui lòng nhập đầy đủ: Mã NV + Ngày sinh (VD: T012315022003)");
+      return;
+    }
+
+    // Validate 8 ký tự cuối phải là số (ngày sinh DDMMYYYY)
+    const birthdate = trimmed.slice(-8);
+    if (!/^\d{8}$/.test(birthdate)) {
+      setError("Ngày sinh không hợp lệ (8 chữ số cuối phải là DDMMYYYY)");
       return;
     }
 
@@ -186,11 +195,11 @@ export default function HeroSection() {
               <div className="space-y-6">
                 <div className="space-y-2">
                   <label className="text-gray-500 text-[10px] uppercase font-bold tracking-widest pl-1">
-                    Mã số nhân viên của bạn
+                    Mã nhân viên + Ngày sinh
                   </label>
                   <input
                     type="text"
-                    placeholder="VD: T0123"
+                    placeholder="VD: T012315022003"
                     value={employeeId}
                     onChange={(e) =>
                       setEmployeeId(e.target.value.toUpperCase())
