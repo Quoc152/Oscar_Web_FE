@@ -2,7 +2,6 @@ import React from "react";
 import type { Metadata } from "next";
 import { Montserrat, Inter, Sora } from "next/font/google";
 import { Analytics } from "@vercel/analytics/next";
-import { AuthProvider } from "@/context/AuthContext";
 import "./globals.css";
 
 const montserrat = Montserrat({
@@ -71,10 +70,8 @@ export default function RootLayout({
       <body
         className={`${montserrat.variable} ${inter.variable} ${sora.variable} font-body antialiased bg-background`}
       >
-        <AuthProvider>
-          {children}
-          <Analytics />
-        </AuthProvider>
+        {children}
+        <Analytics />
       </body>
     </html>
   );

@@ -1,14 +1,24 @@
 "use client";
 
 import React, { useState } from "react";
-import { useAuth } from "@/context/AuthContext";
 import NotificationPopup from "@/components/ui/NotificationPopup";
 import CountdownTimer from "@/components/sections/CountdownTimer";
+import { loginAction } from "@/lib/actions/auth";
+import { useRouter } from "next/navigation";
 
-export default function HeroSection() {
-  const { isAuthenticated, login } = useAuth();
+interface UserData {
+  employeeId: string;
+  dailyVoteRemaining: number;
+}
+
+interface HeroSectionProps {
+  userData: UserData | null;
+}
+
+export default function HeroSection({ userData }: HeroSectionProps) {
+  const router = useRouter();
   const [showAuthPopup, setShowAuthPopup] = useState(false);
-  const [employeeId, setEmployeeId] = useState("");
+  const [authString, setAuthString] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const [error, setError] = useState("");
 
@@ -33,8 +43,7 @@ export default function HeroSection() {
   };
 
   const handleStartVoting = () => {
-    // Kiểm tra localStorage trước
-    if (isAuthenticated) {
+    if (userData) {
       scrollToVoteSection();
     } else {
       setShowAuthPopup(true);
@@ -59,20 +68,17 @@ export default function HeroSection() {
   };
 
   const handleConfirm = async () => {
-    if (!employeeId.trim()) {
+    if (!authString.trim()) {
       setError("Vui lòng nhập mã nhân viên + ngày sinh");
       return;
     }
 
-    // Kiểm tra format bắt buộc: T012315022003 (mã NV + 8 ký tự ngày sinh DDMMYYYY)
-    // Tối thiểu: 4 ký tự mã NV + 8 ký tự ngày sinh = 12 ký tự
-    const trimmed = employeeId.trim();
+    const trimmed = authString.trim();
     if (trimmed.length < 12) {
-      setError("Vui lòng nhập đầy đủ: Mã NV + Ngày sinh (VD: T012315022003)");
+      setError("Vui lòng nhập đầy đủ: Mã NV + Ngày sinh (VD: T012301012000)");
       return;
     }
 
-    // Validate 8 ký tự cuối phải là số (ngày sinh DDMMYYYY)
     const birthdate = trimmed.slice(-8);
     if (!/^\d{8}$/.test(birthdate)) {
       setError("Ngày sinh không hợp lệ (8 chữ số cuối phải là DDMMYYYY)");
@@ -83,23 +89,28 @@ export default function HeroSection() {
     setError("");
 
     try {
-      await login(employeeId.trim());
-      setShowAuthPopup(false);
-      setEmployeeId("");
+      const result = await loginAction(authString.trim());
 
-      // Thông báo đăng nhập thành công
+      if (!result.success) {
+        setError(result.error || "Đăng nhập thất bại");
+        return;
+      }
+
+      setShowAuthPopup(false);
+      setAuthString("");
+
       showNotification(
         "success",
         "Chào mừng bạn đến với Techvify Oscar Awards 2026!",
         "Đăng nhập thành công",
       );
 
+      router.refresh();
       scrollToVoteSection();
     } catch (err: any) {
-      const errorMessage =
-        err?.message || "Đăng nhập thất bại. Vui lòng kiểm tra mã nhân viên.";
-      setError(errorMessage);
-      console.error("Login error:", err);
+      setError(
+        err?.message || "Đăng nhập thất bại. Vui lòng kiểm tra mã nhân viên.",
+      );
     } finally {
       setIsLoading(false);
     }
@@ -199,10 +210,10 @@ export default function HeroSection() {
                   </label>
                   <input
                     type="text"
-                    placeholder="VD: T012315022003"
-                    value={employeeId}
+                    placeholder="VD: T012301012000"
+                    value={authString}
                     onChange={(e) =>
-                      setEmployeeId(e.target.value.toUpperCase())
+                      setAuthString(e.target.value.toUpperCase())
                     }
                     onKeyPress={(e) => {
                       if (e.key === "Enter") handleConfirm();
@@ -227,7 +238,7 @@ export default function HeroSection() {
                     onClick={() => {
                       setShowAuthPopup(false);
                       setError("");
-                      setEmployeeId("");
+                      setAuthString("");
                     }}
                     disabled={isLoading}
                     className="cursor-pointer w-full py-3 text-gray-500 text-[10px] font-bold uppercase tracking-widest hover:text-white transition-colors disabled:opacity-50"
