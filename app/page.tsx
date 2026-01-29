@@ -3,6 +3,7 @@ import Footer from "@/components/layout/Footer";
 import HeroSection from "@/components/sections/HeroSection";
 import VoteSectionServer from "@/components/sections/VoteSectionServer";
 import AboutSection from "@/components/sections/AboutSection";
+import TopEmployeesByGenderSection from "@/components/sections/TopEmployeesByGenderSection";
 import { getUserData } from "@/lib/actions/auth";
 import { getCandidates } from "@/lib/actions/vote";
 
@@ -23,6 +24,7 @@ export default async function Home() {
     <main className="w-full min-h-screen bg-background text-white overflow-hidden">
       <Header />
       <HeroSection userData={userData} />
+      <TopEmployeesByGenderSection candidates={candidates} />
       <VoteSectionServer 
         userData={userData}
         candidates={candidates}
