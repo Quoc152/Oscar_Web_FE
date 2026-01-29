@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import Image from "next/image";
 import { Candidate } from "@/lib/api/candidates";
 
@@ -14,25 +14,21 @@ export default function TopEmployeesByGenderSection({
   const [activeGender, setActiveGender] = useState<"male" | "female">("male");
 
   // Sort and filter candidates by gender and votes
-  const topMaleEmployees = useMemo(() => {
-    return candidates
-      .filter((c) => c.gender === 1)
-      .sort((a, b) => (b.votecount || 0) - (a.votecount || 0))
-      .slice(0, 5);
-  }, [candidates]);
+  const topMaleEmployees = candidates
+    .filter((c) => c.gender === 1)
+    .sort((a, b) => (b.votecount || 0) - (a.votecount || 0))
+    .slice(0, 5);
 
-  const topFemaleEmployees = useMemo(() => {
-    return candidates
-      .filter((c) => c.gender !== 1)
-      .sort((a, b) => (b.votecount || 0) - (a.votecount || 0))
-      .slice(0, 5);
-  }, [candidates]);
+  const topFemaleEmployees = candidates
+    .filter((c) => c.gender !== 1)
+    .sort((a, b) => (b.votecount || 0) - (a.votecount || 0))
+    .slice(0, 5);
 
   const displayedEmployees =
     activeGender === "male" ? topMaleEmployees : topFemaleEmployees;
 
   // Rearrange to order: 4 2 1 3 5 (desktop only)
-  const rearrangedEmployees = useMemo(() => {
+  const rearrangedEmployees = (() => {
     if (displayedEmployees.length === 0) return [];
     const arr = [...displayedEmployees];
     return [
@@ -42,7 +38,7 @@ export default function TopEmployeesByGenderSection({
       { employee: arr[2] || null, rank: 3 },
       { employee: arr[4] || null, rank: 5 },
     ].filter((item) => item.employee !== null);
-  }, [displayedEmployees]);
+  })();
 
   const getGradientColor = (rank: number) => {
     switch (rank) {
