@@ -136,7 +136,7 @@ export default function TopEmployeesByGenderSection({
             Bảng xếp hạng
           </span>
           <h2 className="text-2xl sm:text-4xl lg:text-5xl font-black uppercase text-white mt-2 sm:mt-3 mb-2 sm:mb-4">
-            Top 5 Nhân viên Được Yêu Thích Nhất
+            Top 5 Nhân viên
           </h2>
         </div>
 
